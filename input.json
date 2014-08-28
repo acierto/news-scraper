@@ -1,0 +1,14 @@
+[
+    {
+        "Source": "http://korrespondent.net/",
+        "Find": ".time-articles .article__title",
+        "Link": ["Find", "a", "Attr", "href"],
+        "Title": ["Find", "a", "Text"]
+    },
+    {
+        "Source": "http://news.google.com/",
+        "Find": ".section-content",
+        "Link": ["Find", "a", "Attr", "href"],
+        "Title": ["Find", "a", "Text"]
+    }
+]
