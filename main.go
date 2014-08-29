@@ -8,16 +8,22 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"encoding/json"
 	"os"
+	"cp1251_utf8"
 
+	"fmt"
 	"io/ioutil"
+	"bytes"
 )
 
 type InputElement struct {
-	Source string
-	Find   string
-	Link   []string
-	Title  []string
+	Source  string
+	Find    string
+	Link    []string
+	Title   []string
+	Charset string
 }
+
+func (self *InputElement) Initialize() { if self.Charset == "" { self.Charset = "UTF-8" } }
 
 type Article struct {
 	Link  string
@@ -38,8 +44,7 @@ func readInput() []InputElement {
 	return input
 }
 
-func findElementValue(s *goquery.Selection, rules []string) string {
-
+func rawElementValue(s *goquery.Selection, rules []string) string {
 	for i := 0; i < len(rules); i++ {
 		if rules[i] == "Find" {
 			i++
@@ -56,6 +61,27 @@ func findElementValue(s *goquery.Selection, rules []string) string {
 	return ""
 }
 
+func convert(Charset string, Text string) string {
+	if Charset == "UTF-8" {
+		return Text
+	} else if Charset == "cp1251" {
+		buffer := bytes.NewBufferString("")
+
+		for _, char := range []byte(Text) {
+			var ch = cp1251_utf8.Utf(char)
+			fmt.Fprintf(buffer, "%c", ch)
+		}
+
+		return string(buffer.Bytes())
+	}
+
+	return Text
+}
+
+func findElementValue(s *goquery.Selection, rules []string, Charset string) string {
+	return convert(Charset, rawElementValue(s, rules))
+}
+
 func NewsScraper() {
 
 	var articles = make([]Article, 0)
@@ -64,10 +90,11 @@ func NewsScraper() {
 
 		doc, err := goquery.NewDocument(inputElement.Source)
 		check(err)
+		fmt.Println(doc.Url)
 
 		doc.Find(inputElement.Find).Each(func(i int, s *goquery.Selection) {
-			link := findElementValue(s, inputElement.Link)
-			title := findElementValue(s, inputElement.Title)
+			link := findElementValue(s, inputElement.Link, inputElement.Charset)
+			title := findElementValue(s, inputElement.Title, inputElement.Charset)
 
 			a := Article{link, title}
 			articles = append(articles, a)

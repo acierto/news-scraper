@@ -1,0 +1,23 @@
+[
+
+    {
+        "Source": "http://korrespondent.net/",
+        "Find": ".time-articles .article__title",
+        "Link": ["Find", "a", "Attr", "href"],
+        "Title": ["Find", "a", "Text"]
+    },
+    {
+        "Source": "http://news.google.com/",
+        "Find": ".section-content",
+        "Link": ["Find", "h2 a", "Attr", "href"],
+        "Title": ["Find", "h2 span.titletext", "Text"]
+    },
+    {
+        "Source": "http://www.pravda.com.ua/",
+        "Find": ".block1 .rpad .mnews1",
+        "Link": ["Find", "a", "Attr", "href"],
+        "Title": ["Find", "a", "Text"]
+    }
+]
+
+
