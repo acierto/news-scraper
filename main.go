@@ -68,25 +68,35 @@ func findElementValue(s *goquery.Selection, rules []string, Charset string) stri
 	return convert(Charset, rawElementValue(s, rules))
 }
 
+func collectArticles(doc *goquery.Document, inputElement model.InputElement) []model.Article {
+	var articles = make([]model.Article, 0)
+
+	doc.Find(inputElement.Find).Each(func(i int, s *goquery.Selection) {
+		link := findElementValue(s, inputElement.Link, inputElement.Charset)
+		title := findElementValue(s, inputElement.Title, inputElement.Charset)
+
+		a := model.Article{link, title}
+		articles = append(articles, a)
+	})
+
+	return articles
+}
+
 func NewsScraper() {
 
-	var articles = make([]model.Article, 0)
+	var sourceArticles = make([]model.SourceArticle, 0)
 
 	for _, inputElement := range readInput() {
 
 		doc, err := goquery.NewDocument(inputElement.Source)
 		check(err)
 
-		doc.Find(inputElement.Find).Each(func(i int, s *goquery.Selection) {
-			link := findElementValue(s, inputElement.Link, inputElement.Charset)
-			title := findElementValue(s, inputElement.Title, inputElement.Charset)
-
-			a := model.Article{inputElement.Source, link, title}
-			articles = append(articles, a)
-		})
+		var articles = collectArticles(doc, inputElement)
+		sourceArticle := model.SourceArticle{inputElement.Source, articles}
+		sourceArticles = append(sourceArticles, sourceArticle)
 	}
 
-	json, err := json.MarshalIndent(articles, "", "  ")
+	json, err := json.MarshalIndent(sourceArticles, "", "  ")
 	check(err)
 
 	os.Stdout.Write(json)
