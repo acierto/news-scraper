@@ -1,9 +1,9 @@
 [
     {
-        "Source": "http://korrespondent.net/",
-        "Find": ".time-articles .article__title",
-        "Link": ["Find", "a", "Attr", "href"],
-        "Title": ["Find", "a", "Text"],
-        "FindImg": ["img.post-item__big-photo-img", "img.post-item__photo-img", "img.rsTmb"]
+        "Source": "http://thekievtimes.ua/",
+        "Find": ".wrapper .content .leftCell .leftCell .jWidget a",
+        "Link": ["Attr", "href"],
+        "Title": ["Find", "div", "Text"],
+        "FindImg": [".post-head img"]
     }
 ]
