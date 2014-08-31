@@ -1,5 +1,11 @@
 [
     {
+        "Source": "http://korrespondent.net/",
+        "Find": ".time-articles .article__title",
+        "Link": ["Find", "a", "Attr", "href"],
+        "Title": ["Find", "a", "Text"]
+    },
+    {
         "Source": "http://www.pravda.com.ua/",
         "Find": ".block1 .rpad .mnews1 dd",
         "Link": ["Find", "a", "Attr", "href"],

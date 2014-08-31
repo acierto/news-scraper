@@ -8,27 +8,13 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"encoding/json"
 	"os"
-	"cp1251_utf8"
+	"enc"
+	"model"
 
 	"fmt"
 	"io/ioutil"
 	"bytes"
 )
-
-type InputElement struct {
-	Source  string
-	Find    string
-	Link    []string
-	Title   []string
-	Charset string
-}
-
-func (self *InputElement) Initialize() { if self.Charset == "" { self.Charset = "UTF-8" } }
-
-type Article struct {
-	Link  string
-	Title string
-}
 
 func check(e error) {
 	if e != nil {
@@ -36,8 +22,8 @@ func check(e error) {
 	}
 }
 
-func readInput() []InputElement {
-	var input = make([]InputElement, 0)
+func readInput() []model.InputElement {
+	var input = make([]model.InputElement, 0)
 	dat, err := ioutil.ReadFile("input.json")
 	check(err)
 	json.Unmarshal(dat, &input)
@@ -84,19 +70,18 @@ func findElementValue(s *goquery.Selection, rules []string, Charset string) stri
 
 func NewsScraper() {
 
-	var articles = make([]Article, 0)
+	var articles = make([]model.Article, 0)
 
 	for _, inputElement := range readInput() {
 
 		doc, err := goquery.NewDocument(inputElement.Source)
 		check(err)
-		fmt.Println(doc.Url)
 
 		doc.Find(inputElement.Find).Each(func(i int, s *goquery.Selection) {
 			link := findElementValue(s, inputElement.Link, inputElement.Charset)
 			title := findElementValue(s, inputElement.Title, inputElement.Charset)
 
-			a := Article{link, title}
+			a := model.Article{inputElement.Source, link, title}
 			articles = append(articles, a)
 		})
 	}
