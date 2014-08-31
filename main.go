@@ -76,7 +76,6 @@ func findImage(Link string, FindImg []string) string {
 
 	for imgNum := 0; imgNum < len(FindImg); imgNum++ {
 		doc.Find(FindImg[imgNum]).Each(func(i int, s *goquery.Selection) {
-			fmt.Printf(src + "\n")
 			src, _ = s.Attr("src")
 		})
 		if src != "" {
@@ -129,10 +128,5 @@ func NewsScraper() {
 }
 
 func main() {
-//	NewsScraper()
-
-	var rules = make([]string, 0)
-	rules = append(rules, "img")
-
-	findImage("http://korrespondent.net/world/3412288-karnaval-v-londone-y-prazdnyk-v-palestyne-hlavnye-foto-nedely", rules)
+	NewsScraper()
 }
