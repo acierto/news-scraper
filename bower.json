@@ -1,0 +1,35 @@
+{
+    "name": "news-scraper",
+    "ignore": [".jshintrc", "**/*.txt"],
+    "dependencies": {
+        "angular": "1.2.19",
+        "angular-resource": "1.2.19",
+        "angular-route": "1.2.19",
+        "angular-mocks": "1.2.19",
+        "angular-sanitize" : "1.2.19",
+        "bootstrap": "3.1.1",
+        "lodash": "2.4.1",
+        "respond": "1.4.2",
+        "jquery": "1.11.0"
+    },
+    "install": {
+        "path": {
+            "css": "src/main/web/libs/css",
+            "js": "src/main/web/libs/js",
+            "gzip": "src/main/web/libs/js",
+            "map": "src/main/web/libs/js",
+            "eot": "src/main/web/libs/fonts",
+            "svg": "src/main/web/libs/fonts",
+            "ttf": "src/main/web/libs/fonts",
+            "woff": "src/main/web/libs/fonts"
+        },
+        "sources" : {
+            "angular" : "bower_components/angular/angular.min.*",
+            "angular-resource" : "bower_components/angular-resource/angular-resource.min.*",
+            "angular-route" : "bower_components/angular-route/angular-route.min.*",
+            "angular-sanitize" : "bower_components/angular-sanitize/angular-sanitize.min.*",
+            "lodash" : "bower_components/lodash/dist/lodash.compat.min.*",
+            "respond" : "bower_components/respond/dest/respond.min.js"
+        }
+    }
+}
