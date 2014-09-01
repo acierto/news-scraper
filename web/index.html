@@ -28,26 +28,21 @@
 </head>
 
 <body ng-app="NewsScraperApp">
-<div class="container" ng-controller="MainController">
+<div ng-controller="MainController">
 
-    <span ng-repeat="src in newsSources">
-        <div class="row" ng-repeat="articleGroup in src.Articles | toGroup track by $index">
-            <div class="col-sm-6 col-md-3" ng-repeat="article in articleGroup">
-                <div>
-                    <a href="{{article.Link}}" target="_blank">
-                        <img ng-if="hasImage(article)" src="{{article.Img}}"
-                             alt="{{article.Title}}"
-                             height="129px" width="205px">
-                    </a>
-                </div>
-                <div>
-                    <span class="article-title">{{article.Title}}</span>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="list-group" ng-repeat="src in newsSources">
+                <li class="list-group-item" ng-repeat="article in src.Articles">
+                    <a href="#" ng-click="openLink(article.Link)">{{article.Title}}</a>
+                </li>
+            </ul>
         </div>
-    </span>
+        <div class="col-md-9">
+            <div id="external-article"></div>
+        </div>
 
-</div>
+    </div>
 </body>
 </html>
 

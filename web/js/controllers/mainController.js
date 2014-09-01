@@ -8,4 +8,8 @@ angular.module('NewsScraperApp').controller('MainController',
         $scope.hasImage = function(article) {
             return article.Img != '';
         };
+
+        $scope.openLink = function(link) {
+            $("#external-article").html('<object data="' + link + '"/>');
+        }
     });
