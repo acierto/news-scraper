@@ -130,8 +130,6 @@ func NewsScraper() {
 }
 
 func readHtmlPage(Url string) string {
-	fmt.Println("Bla")
-
 	r, err := http.Get(Url)
 	check(err)
 
@@ -148,7 +146,6 @@ func main() {
 //	NewsScraper()
 
 	m := martini.Classic()
-
 	m.Use(martini.Static("web"))
 
 	m.Get("/read-html", func(req *http.Request) string {
