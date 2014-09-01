@@ -40,7 +40,7 @@ angular.module('NewsScraperApp').controller('MainController',
         }
 
         function updateContentHeight() {
-            updateHeights('#left-column', '#right-column', '#external-article object');
+            updateHeights(['#left-column', '#right-column', '#external-article object']);
         }
 
         $(window).resize(function () {
