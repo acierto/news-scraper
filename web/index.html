@@ -31,14 +31,13 @@
 <div ng-controller="MainController">
 
     <div class="row">
-        <div class="col-md-3">
-            <ul class="list-group" ng-repeat="src in newsSources">
-                <li class="list-group-item" ng-repeat="article in src.Articles">
-                    <a href="#" ng-click="openLink(article.Link)">{{article.Title}}</a>
-                </li>
-            </ul>
+        <div id="left-column" class="col-md-3">
+            <div class="list-group" ng-repeat="src in newsSources">
+                <a class="list-group-item" ng-click="openLink(article.Link)" ng-repeat="article in src.Articles"
+                   ng-class="{active:selected==article.Link}">{{article.Title}}</a>
+            </div>
         </div>
-        <div class="col-md-9">
+        <div id="right-column" class="col-md-9">
             <div id="external-article"></div>
         </div>
 
