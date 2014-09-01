@@ -5,7 +5,6 @@ type InputElement struct {
 	Find           string
 	Link           []string
 	Title          []string
-	FindImg        []string
 	Charset        string
 }
 
@@ -14,7 +13,6 @@ func (self *InputElement) Initialize() { if self.Charset == "" { self.Charset = 
 type Article struct {
 	Link      string
 	Title     string
-	Img       string
 }
 
 type SourceArticle struct {

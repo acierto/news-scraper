@@ -1,8 +1,14 @@
 angular.module('NewsScraperApp').controller('MainController',
     function ($scope, $interval, ApiService) {
 
+        $scope.itemSelected = false;
+
         ApiService.getArticles().then(function (articles) {
             $scope.newsSources = articles.data;
+
+            if (!$scope.itemSelected) {
+                $("#external-article").html('<object data="' + $scope.newsSources[0].Articles[0].Link + '"/>');
+            }
         });
 
         $scope.hasImage = function (article) {
@@ -10,6 +16,7 @@ angular.module('NewsScraperApp').controller('MainController',
         };
 
         $scope.openLink = function (link) {
+            $scope.itemSelected = true;
             $scope.$parent.selected = link;
             $("#external-article").html('<object data="' + link + '"/>');
         };
@@ -26,15 +33,15 @@ angular.module('NewsScraperApp').controller('MainController',
             return originalHeight - 20;
         }
 
-        function updateContentHeight() {
-            $('#left-column').css('height', calcHeight() + 'px');
-            $('#right-column').css('height', calcHeight() + 'px');
-            $('#external-article object').css('height', calcHeight() + 'px');
+        function updateHeights(selectors) {
+            _.each(selectors, function(selector){
+                $(selector).css('height', calcHeight() + 'px');
+            });
         }
 
-        $scope.$on('$routeChangeSuccess', function () {
-            updateContentHeight();
-        });
+        function updateContentHeight() {
+            updateHeights('#left-column', '#right-column', '#external-article object');
+        }
 
         $(window).resize(function () {
             updateContentHeight();

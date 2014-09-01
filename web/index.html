@@ -34,7 +34,7 @@
         <div id="left-column" class="col-md-3">
             <div class="list-group" ng-repeat="src in newsSources">
                 <a class="list-group-item" ng-click="openLink(article.Link)" ng-repeat="article in src.Articles"
-                   ng-class="{active:selected==article.Link}">{{article.Title}}</a>
+                   ng-class="{active:selected==article.Link || ($index == 0 && !itemSelected)}">{{article.Title}}</a>
             </div>
         </div>
         <div id="right-column" class="col-md-9">

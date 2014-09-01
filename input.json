@@ -3,7 +3,6 @@
         "Source": "http://thekievtimes.ua/",
         "Find": ".wrapper .content .leftCell .leftCell .jWidget a",
         "Link": ["Attr", "href"],
-        "Title": ["Find", "div", "Text"],
-        "FindImg": [".post-head img"]
+        "Title": ["Find", "div", "Text"]
     }
 ]

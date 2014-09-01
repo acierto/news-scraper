@@ -70,31 +70,13 @@ func findElementValue(s *goquery.Selection, rules []string, Charset string) stri
 	return convert(Charset, rawElementValue(s, rules))
 }
 
-func findImage(Link string, FindImg []string) string {
-	doc, err := goquery.NewDocument(Link)
-	check(err)
-
-	src := ""
-
-	for imgNum := 0; imgNum < len(FindImg); imgNum++ {
-		doc.Find(FindImg[imgNum]).Each(func(i int, s *goquery.Selection) {
-			src, _ = s.Attr("src")
-		})
-		if src != "" {
-			return src
-		}
-	}
-	return src
-}
-
 func collectArticles(doc *goquery.Document, inputElement model.InputElement) []model.Article {
 	var articles = make([]model.Article, 0)
 
 	doc.Find(inputElement.Find).Each(func(i int, s *goquery.Selection) {
 		link := findElementValue(s, inputElement.Link, inputElement.Charset)
 		title := findElementValue(s, inputElement.Title, inputElement.Charset)
-		img := findImage(link, inputElement.FindImg)
-		a := model.Article{link, title, img}
+		a := model.Article{link, title}
 		articles = append(articles, a)
 	})
 	return articles
@@ -109,7 +91,7 @@ func createJsonFile(jsonInput []byte) {
 	check(err)
 }
 
-func NewsScraper() {
+func scrape() {
 
 	var sourceArticles = make([]model.SourceArticle, 0)
 
@@ -143,7 +125,7 @@ func readHtmlPage(Url string) string {
 }
 
 func main() {
-//	NewsScraper()
+	scrape()
 
 	m := martini.Classic()
 	m.Use(martini.Static("web"))
