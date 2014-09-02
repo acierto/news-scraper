@@ -11,6 +11,9 @@ function build() {
     go get github.com/robfig/cron
 
     go build
+
+    executed_file_name=${PWD##*/}
+    mv $executed_file_name news-scraper
 }
 
 function restartServer() {
