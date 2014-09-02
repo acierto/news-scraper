@@ -6,7 +6,7 @@ package main
 
 import (
 	"net/http"
-	"io/ioutil"
+	"services/scraping"
 	"services/liveupdate"
 	"github.com/go-martini/martini"
 )
@@ -17,19 +17,6 @@ func check(e error) {
 	}
 }
 
-func readHtmlPage(Url string) string {
-	r, err := http.Get(Url)
-	check(err)
-
-	var b []byte
-	b, err = ioutil.ReadAll(r.Body)
-	check(err)
-
-	var body = string(b)
-	r.Body.Close()
-	return body
-}
-
 func main() {
 	liveupdate.CronLatestNews()
 
@@ -37,13 +24,12 @@ func main() {
 	m.Use(martini.Static("web"))
 
 	m.Get("/read-html", func(req *http.Request) string {
-		urlValues := req.URL.Query()["url"]
-		if len(urlValues) > 0 {
-			html := readHtmlPage(urlValues[0])
-			return html
-		}
-		return ""
-	})
+			urlValues := req.URL.Query()["url"]
+			if len(urlValues) > 0 {
+				return scraping.SelectContent(urlValues[0], ".leftCell.mainContentBlock")
+			}
+			return ""
+		})
 
 	m.Run()
 }

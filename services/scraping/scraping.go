@@ -91,6 +91,15 @@ func GetDocument(htmlLink string) *goquery.Document {
 	return doc
 }
 
+func SelectContent(url string, selector string) string {
+	header, _ := GetDocument(url).Find("head").Html()
+	content, _ := GetDocument(url).Find(selector).Html()
+
+	html := "<html><head>" + header + "</head><body>" + content + "</body>"
+
+	return html
+}
+
 func Scrape() {
 	var sourceArticles = make([]model.SourceArticle, 0)
 
