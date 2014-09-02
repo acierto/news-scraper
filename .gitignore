@@ -6,3 +6,6 @@ node_modules/
 bower_components/
 pkg/
 web/libs/
+*.out
+news-scraper
+web/json/

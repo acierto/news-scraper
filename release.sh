@@ -19,7 +19,7 @@ function restartServer() {
         kill -9 $used_pid
     fi
 
-    nohub news-scraper &
+    nohup ./news-scraper &
 }
 
 pullLatestChanges
