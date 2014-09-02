@@ -1,7 +1,7 @@
 #!/bin/sh
 
 function build() {
-    chmod +x build.sh
+    sudo chmod +x build.sh
     ./build.sh
 }
 
@@ -10,7 +10,7 @@ function restartServer() {
 
     if [[ ! -z $used_pid ]]
     then
-        kill -9 $used_pid
+        sudo kill -9 $used_pid
     fi
 
     nohup ./news-scraper &
