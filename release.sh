@@ -1,11 +1,5 @@
 #!/bin/sh
 
-function pullLatestChanges() {
-    git stash
-    git pull --rebase
-    git apply stash
-}
-
 function build() {
     chmod +x build.sh
     ./build.sh
@@ -22,6 +16,5 @@ function restartServer() {
     nohup ./news-scraper &
 }
 
-pullLatestChanges
 build
 restartServer
