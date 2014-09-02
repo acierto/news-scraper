@@ -85,13 +85,18 @@ func createJsonFile(jsonInput []byte) {
 	check(err)
 }
 
+func GetDocument(htmlLink string) *goquery.Document {
+	doc, err := goquery.NewDocument(htmlLink)
+	check(err)
+	return doc
+}
+
 func Scrape() {
 	var sourceArticles = make([]model.SourceArticle, 0)
 
 	for _, inputElement := range readInput() {
 
-		doc, err := goquery.NewDocument(inputElement.Source)
-		check(err)
+		var doc = GetDocument(inputElement.Source)
 
 		var articles = collectArticles(doc, inputElement)
 		sourceArticle := model.SourceArticle{inputElement.Source, articles}

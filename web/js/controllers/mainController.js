@@ -7,7 +7,7 @@ angular.module('NewsScraperApp').controller('MainController',
             $scope.newsSources = articles.data;
 
             if (!$scope.itemSelected) {
-                $("#external-article").html('<object data="' + $scope.newsSources[0].Articles[0].Link + '"/>');
+                insertInnerPage($scope.newsSources[0].Articles[0].Link);
             }
         });
 
@@ -18,7 +18,11 @@ angular.module('NewsScraperApp').controller('MainController',
         $scope.openLink = function (link) {
             $scope.itemSelected = true;
             $scope.$parent.selected = link;
-            $("#external-article").html('<object data="' + link + '"/>');
+            insertInnerPage(link);
+        };
+
+        var insertInnerPage = function(link) {
+            $("#external-article").html('<object data="/read-html?url=' + link + '"/>');
         };
 
         var updateInternalPageContent = $interval(function () {

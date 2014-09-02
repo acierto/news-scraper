@@ -39,7 +39,8 @@ func main() {
 	m.Get("/read-html", func(req *http.Request) string {
 		urlValues := req.URL.Query()["url"]
 		if len(urlValues) > 0 {
-			return readHtmlPage(urlValues[0])
+			html := readHtmlPage(urlValues[0])
+			return html
 		}
 		return ""
 	})
