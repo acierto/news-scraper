@@ -7,7 +7,7 @@ package main
 import (
 	"net/http"
 	"io/ioutil"
-	"services/scraping"
+	"services/liveupdate"
 	"github.com/go-martini/martini"
 )
 
@@ -16,7 +16,6 @@ func check(e error) {
 		panic(e)
 	}
 }
-
 
 func readHtmlPage(Url string) string {
 	r, err := http.Get(Url)
@@ -32,7 +31,7 @@ func readHtmlPage(Url string) string {
 }
 
 func main() {
-	scraping.Scrape()
+	liveupdate.CronLatestNews()
 
 	m := martini.Classic()
 	m.Use(martini.Static("web"))
