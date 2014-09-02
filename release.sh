@@ -3,6 +3,12 @@
 function build() {
     sudo chmod 777 build.sh
     ./build.sh
+
+    go get github.com/go-martini/martini
+    go get github.com/PuerkitoBio/goquery
+    go get github.com/robfig/cron
+
+    go build
 }
 
 function restartServer() {
