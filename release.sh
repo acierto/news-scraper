@@ -1,8 +1,10 @@
 #!/bin/sh
 
 function build() {
-    sudo chmod 777 build.sh
+    chmod +x build.sh
     ./build.sh
+
+    export GOPATH=`pwd`
 
     go get github.com/go-martini/martini
     go get github.com/PuerkitoBio/goquery
