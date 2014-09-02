@@ -18,7 +18,7 @@ func check(e error) {
 }
 
 func main() {
-	scraping.Scrape()dd
+	scraping.Scrape()
 	liveupdate.CronLatestNews()
 
 	m := martini.Classic()
