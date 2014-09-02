@@ -1,7 +1,7 @@
 #!/bin/sh
 
 function build() {
-    sudo chmod +x build.sh
+    sudo chmod 777 build.sh
     ./build.sh
 }
 
