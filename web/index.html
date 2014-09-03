@@ -32,8 +32,8 @@
 
     <div class="row">
         <div id="left-column" class="col-md-3">
-            <div class="list-group" ng-repeat="src in newsSources">
-                <a class="list-group-item" ng-click="openLink(article.Link)" ng-repeat="article in src.Articles"
+            <div class="list-group" ng-repeat="group in groupedArticles">
+                <a class="list-group-item" ng-click="openLink(article.Link, group.ContentSelector)" ng-repeat="article in group.Articles"
                    ng-class="{active:selected==article.Link || ($index == 0 && !itemSelected)}">{{article.Title}}</a>
             </div>
         </div>

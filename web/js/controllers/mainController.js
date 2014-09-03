@@ -4,10 +4,11 @@ angular.module('NewsScraperApp').controller('MainController',
         $scope.itemSelected = false;
 
         ApiService.getArticles().then(function (articles) {
-            $scope.newsSources = articles.data;
+            $scope.groupedArticles = articles.data;
 
             if (!$scope.itemSelected) {
-                insertInnerPage($scope.newsSources[0].Articles[0].Link);
+                var group = $scope.groupedArticles[0];
+                insertInnerPage(group.Articles[0].Link, group.ContentSelector);
             }
         });
 
@@ -15,14 +16,14 @@ angular.module('NewsScraperApp').controller('MainController',
             return article.Img != '';
         };
 
-        $scope.openLink = function (link) {
+        $scope.openLink = function (link, contentSelector) {
             $scope.itemSelected = true;
             $scope.$parent.selected = link;
-            insertInnerPage(link);
+            insertInnerPage(link, contentSelector);
         };
 
-        var insertInnerPage = function(link) {
-            $("#external-article").html('<object data="/read-html?url=' + link + '"/>');
+        var insertInnerPage = function (link, contentSelector) {
+            $("#external-article").html('<object data="/read-html?url=' + link + '&selector=' + contentSelector + ' "/>');
         };
 
         var updateInternalPageContent = $interval(function () {
@@ -38,7 +39,7 @@ angular.module('NewsScraperApp').controller('MainController',
         }
 
         function updateHeights(selectors) {
-            _.each(selectors, function(selector){
+            _.each(selectors, function (selector) {
                 $(selector).css('height', calcHeight() + 'px');
             });
         }

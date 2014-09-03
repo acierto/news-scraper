@@ -104,11 +104,10 @@ func Scrape() {
 	var sourceArticles = make([]model.SourceArticle, 0)
 
 	for _, inputElement := range readInput() {
-
 		var doc = GetDocument(inputElement.Source)
 
 		var articles = collectArticles(doc, inputElement)
-		sourceArticle := model.SourceArticle{inputElement.Source, articles}
+		sourceArticle := model.SourceArticle{inputElement.Source, inputElement.ContentSelector, articles}
 		sourceArticles = append(sourceArticles, sourceArticle)
 	}
 

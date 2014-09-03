@@ -6,6 +6,7 @@ type InputElement struct {
 	Link           []string
 	Title          []string
 	Charset        string
+	ContentSelector string
 }
 
 func (self *InputElement) Initialize() { if self.Charset == "" { self.Charset = "UTF-8" } }
@@ -17,5 +18,6 @@ type Article struct {
 
 type SourceArticle struct {
 	Source   string
+	ContentSelector string
 	Articles []Article
 }

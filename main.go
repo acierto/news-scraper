@@ -26,8 +26,9 @@ func main() {
 
 	m.Get("/read-html", func(req *http.Request) string {
 			urlValues := req.URL.Query()["url"]
-			if len(urlValues) > 0 {
-				return scraping.SelectContent(urlValues[0], ".leftCell.mainContentBlock")
+			selectors := req.URL.Query()["selector"]
+			if len(urlValues) > 0 && len(selectors) > 0 {
+				return scraping.SelectContent(urlValues[0], selectors[0])
 			}
 			return ""
 		})
