@@ -8,8 +8,7 @@ import (
 	"net/http"
 	"services/scraping"
 	"services/liveupdate"
-	"github.com/go-martini/martini"
-)
+	"github.com/go-martini/martini")
 
 func check(e error) {
 	if e != nil {
@@ -17,10 +16,7 @@ func check(e error) {
 	}
 }
 
-func main() {
-	scraping.Scrape()
-	liveupdate.CronLatestNews()
-
+func routing() {
 	m := martini.Classic()
 	m.Use(martini.Static("web"))
 
@@ -34,4 +30,14 @@ func main() {
 		})
 
 	m.Run()
+}
+
+func runJob() {
+	scraping.Scrape()
+	liveupdate.CronLatestNews()
+}
+
+func main() {
+	runJob()
+	routing()
 }

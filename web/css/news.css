@@ -22,3 +22,15 @@ html {
 .divCell {
   display: table-cell;
 }
+
+.time {
+  font-size: 10px;
+}
+
+.favi {
+  margin: 5px 0 0 3px;
+}
+
+.item-short-info {
+  width: 40px
+}

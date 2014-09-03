@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"bytes"
+	"time"
 )
 
 func check(e error) {
@@ -60,17 +61,23 @@ func convert(Charset string, Text string) string {
 	return Text
 }
 
-func findElementValue(s *goquery.Selection, rules []string, Charset string) string {
+func findAndCovertElementValue(s *goquery.Selection, rules []string, Charset string) string {
 	return convert(Charset, rawElementValue(s, rules))
+}
+
+func findElementValue(s *goquery.Selection, rules []string) string {
+	return rawElementValue(s, rules)
 }
 
 func collectArticles(doc *goquery.Document, inputElement model.InputElement) []model.Article {
 	var articles = make([]model.Article, 0)
 
 	doc.Find(inputElement.Find).Each(func(i int, s *goquery.Selection) {
-		link := findElementValue(s, inputElement.Link, inputElement.Charset)
-		title := findElementValue(s, inputElement.Title, inputElement.Charset)
-		a := model.Article{link, title}
+		link := findAndCovertElementValue(s, inputElement.Link, inputElement.Charset)
+		title := findElementValue(s, inputElement.Title)
+		t := findElementValue(s, inputElement.Time)
+		articleTime, _ := time.Parse("15:04", t)
+		a := model.Article{link, title, articleTime}
 		articles = append(articles, a)
 	})
 	return articles

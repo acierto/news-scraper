@@ -38,7 +38,10 @@
                         ng-class="{active:selected==article.Link || ($index == 0 && !itemSelected)}">
                         <div class="divTable">
                             <div class="divRow">
-                                <div style="width: 30px" class="divCell"><img class="pull-left" ng-src="{{group.Source}}/favicon.ico"/></div>
+                                <div class="divCell item-short-info">
+                                    <span class="time">{{article.Time | date: 'HH:mm'}}</span>
+                                    <img class="favi pull-left" ng-src="{{group.Source}}/favicon.ico"/>
+                                </div>
                                 <div class="divCell">{{article.Title}}</div>
                             </div>
                         </div>
