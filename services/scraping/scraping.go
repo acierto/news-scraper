@@ -20,7 +20,7 @@ func check(e error) {
 
 func readInput() []model.InputElement {
 	var input = make([]model.InputElement, 0)
-	dat, err := ioutil.ReadFile("input.json")
+	dat, err := ioutil.ReadFile("scrapingRules.json")
 	check(err)
 	json.Unmarshal(dat, &input)
 	return input
