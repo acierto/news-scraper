@@ -28,13 +28,22 @@
 </head>
 
 <body ng-app="NewsScraperApp">
-<div ng-controller="MainController">
+<div ng-controller="MainController" ng-cloak>
 
     <div class="row">
         <div id="left-column" class="col-md-3">
             <div class="list-group" ng-repeat="group in groupedArticles">
-                <a class="list-group-item" ng-click="openLink(article.Link, group.ContentSelector)" ng-repeat="article in group.Articles"
-                   ng-class="{active:selected==article.Link || ($index == 0 && !itemSelected)}">{{article.Title}}</a>
+                <div ng-repeat="article in group.Articles">
+                    <a class="list-group-item" ng-click="openLink(article.Link, group.ContentSelector)"
+                        ng-class="{active:selected==article.Link || ($index == 0 && !itemSelected)}">
+                        <div class="divTable">
+                            <div class="divRow">
+                                <div style="width: 30px" class="divCell"><img class="pull-left" ng-src="{{group.Source}}/favicon.ico"/></div>
+                                <div class="divCell">{{article.Title}}</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
         <div id="right-column" class="col-md-9">

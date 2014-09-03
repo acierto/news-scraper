@@ -10,3 +10,15 @@ html {
 #left-column {
   overflow: auto
 }
+
+.divTable {
+  display: table;
+}
+
+.divRow {
+  display: table-row;
+}
+
+.divCell {
+  display: table-cell;
+}
