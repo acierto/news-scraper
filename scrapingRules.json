@@ -4,6 +4,7 @@
         "Find": ".wrapper .content .leftCell .leftCell .jWidget a",
         "Link": ["Attr", "href"],
         "Time": ["Find", "span.jTime", "Text"],
+        "TimeZone": -3,
         "Title": ["Find", "div", "Text"],
         "ContentSelector": ".leftCell.mainContentBlock"
     },
@@ -12,6 +13,7 @@
         "Find": ".time-articles .article",
         "Link": ["Find", ".article__title a", "Attr", "href"],
         "Time": ["Find", ".article__time", "Text"],
+        "TimeZone": -3,
         "Title": ["Find", "a", "Text"],
         "ContentSelector": ".unit-rubric.unit-rubric-news"
     }

@@ -69,14 +69,43 @@ func findElementValue(s *goquery.Selection, rules []string) string {
 	return rawElementValue(s, rules)
 }
 
+func getArticleTime(s *goquery.Selection, articleTimes *[]time.Time, inputElement model.InputElement) time.Time {
+	t := findElementValue(s, inputElement.Time)
+
+	articleTime, _ := time.Parse("2006/01/02 15:04", time.Now().UTC().Format("2006/01/02")+" "+t)
+
+	// time zone
+	articleTime = articleTime.Add(time.Duration(inputElement.TimeZone) * time.Hour)
+
+	if len(*articleTimes) == 0 {
+		if articleTime.After(time.Now().UTC()) {
+			articleTime = articleTime.AddDate(0, 0, -1)
+		}
+	} else {
+		var lastArticleTime = (*articleTimes)[len(*articleTimes) - 1]
+		if articleTime.After(lastArticleTime) {
+			articleTime = articleTime.AddDate(0, 0, -1)
+		}
+	}
+
+	if (len(*articleTimes) > 2) {
+		(*articleTimes) = (*articleTimes)[1:]
+	}
+
+	(*articleTimes) = append((*articleTimes), articleTime)
+
+	return articleTime
+}
+
 func collectArticles(doc *goquery.Document, inputElement model.InputElement) []model.Article {
 	var articles = make([]model.Article, 0)
 
+	var articleTimes = make([]time.Time, 0)
 	doc.Find(inputElement.Find).Each(func(i int, s *goquery.Selection) {
 		link := findAndCovertElementValue(s, inputElement.Link, inputElement.Charset)
 		title := findElementValue(s, inputElement.Title)
-		t := findElementValue(s, inputElement.Time)
-		articleTime, _ := time.Parse("15:04", t)
+		articleTime := getArticleTime(s, &articleTimes, inputElement)
+
 		a := model.Article{inputElement.Source, inputElement.ContentSelector, link, title, articleTime}
 		articles = append(articles, a)
 	})

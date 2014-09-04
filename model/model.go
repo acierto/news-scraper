@@ -8,6 +8,7 @@ type InputElement struct {
 	Link           []string
 	Title          []string
 	Time		   []string
+	TimeZone	   int
 	Charset        string
 	ContentSelector string
 }
