@@ -15,6 +15,6 @@
         "Time": ["Find", ".article__time", "Text"],
         "TimeZone": -3,
         "Title": ["Find", "a", "Text"],
-        "ContentSelector": ".unit-rubric.unit-rubric-news"
+        "ContentSelector": ".post-item.clearfix"
     }
 ]

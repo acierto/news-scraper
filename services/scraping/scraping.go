@@ -78,7 +78,7 @@ func getArticleTime(s *goquery.Selection, articleTimes *[]time.Time, inputElemen
 	articleTime = articleTime.Add(time.Duration(inputElement.TimeZone) * time.Hour)
 
 	if len(*articleTimes) == 0 {
-		if articleTime.After(time.Now().UTC()) {
+		if articleTime.After(time.Now()) {
 			articleTime = articleTime.AddDate(0, 0, -1)
 		}
 	} else {
