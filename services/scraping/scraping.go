@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"bytes"
 	"time"
+	"strings"
 )
 
 func check(e error) {
@@ -97,16 +98,24 @@ func getArticleTime(s *goquery.Selection, articleTimes *[]time.Time, inputElemen
 	return articleTime
 }
 
+func getLink(s *goquery.Selection, inputElement model.InputElement) string {
+	link := findElementValue(s, inputElement.Link)
+	if !strings.HasPrefix(link, inputElement.Source) {
+		link = inputElement.Source + link
+	}
+	return link
+}
+
 func collectArticles(doc *goquery.Document, inputElement model.InputElement) []model.Article {
 	var articles = make([]model.Article, 0)
 
 	var articleTimes = make([]time.Time, 0)
 	doc.Find(inputElement.Find).Each(func(i int, s *goquery.Selection) {
-		link := findAndCovertElementValue(s, inputElement.Link, inputElement.Charset)
-		title := findElementValue(s, inputElement.Title)
+		title := findAndCovertElementValue(s, inputElement.Title, inputElement.Charset)
+		link := getLink(s, inputElement)
 		articleTime := getArticleTime(s, &articleTimes, inputElement)
 
-		a := model.Article{inputElement.Source, inputElement.ContentSelector, link, title, articleTime}
+		a := model.Article{inputElement.Source, inputElement.ContentSelector, link, title, articleTime, inputElement.Charset}
 		articles = append(articles, a)
 	})
 	return articles
@@ -127,11 +136,11 @@ func GetDocument(htmlLink string) *goquery.Document {
 	return doc
 }
 
-func SelectContent(url string, selector string) string {
+func SelectContent(url string, selector string, encoding string) string {
 	header, _ := GetDocument(url).Find("head").Html()
 	content, _ := GetDocument(url).Find(selector).Html()
 
-	html := "<html><head>" + header + "</head><body>" + content + "</body>"
+	html := "<html><head>" + header + "</head><body>" + convert(encoding, content) + "</body>"
 
 	return html
 }

@@ -21,4 +21,5 @@ type Article struct {
 	Link      string
 	Title     string
 	Time	  time.Time
+	Charset	  string
 }

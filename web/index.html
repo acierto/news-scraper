@@ -34,7 +34,7 @@
         <div id="left-column" class="col-md-3">
             <div class="list-group">
                 <div ng-repeat="entry in collectedArticles | mapByTime | orderBy: 'key':true ">
-                    <a class="list-group-item" ng-click="openLink(entry.value.Link, entry.value.ContentSelector)"
+                    <a class="list-group-item" ng-click="openLink(entry.value.Link, entry.value.ContentSelector, entry.value.Charset)"
                         ng-class="{active:selected==entry.value.Link || ($index == 0 && !itemSelected)}">
                         <div class="divTable">
                             <div class="divRow">

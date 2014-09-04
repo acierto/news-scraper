@@ -8,7 +8,7 @@ angular.module('NewsScraperApp').controller('MainController',
 
             if (!$scope.itemSelected) {
                 var article = $scope.collectedArticles[0];
-                insertInnerPage(article.Link, article.ContentSelector);
+                insertInnerPage(article.Link, article.ContentSelector, article.Charset);
             }
         });
 
@@ -16,14 +16,14 @@ angular.module('NewsScraperApp').controller('MainController',
             return article.Img != '';
         };
 
-        $scope.openLink = function (link, contentSelector) {
+        $scope.openLink = function (link, contentSelector, charset) {
             $scope.itemSelected = true;
             $scope.$parent.selected = link;
-            insertInnerPage(link, contentSelector);
+            insertInnerPage(link, contentSelector, charset);
         };
 
-        var insertInnerPage = function (link, contentSelector) {
-            $("#external-article").html('<object data="/read-html?url=' + link + '&selector=' + contentSelector + ' "/>');
+        var insertInnerPage = function (link, contentSelector, charset) {
+            $("#external-article").html('<object data="/read-html?url=' + link + '&selector=' + contentSelector + '&charset=' + charset + '"/>');
         };
 
         var updateInternalPageContent = $interval(function () {

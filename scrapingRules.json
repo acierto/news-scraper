@@ -6,7 +6,8 @@
         "Time": ["Find", "span.jTime", "Text"],
         "TimeZone": -3,
         "Title": ["Find", "div", "Text"],
-        "ContentSelector": ".leftCell.mainContentBlock"
+        "ContentSelector": ".leftCell.mainContentBlock",
+        "Charset": "UTF-8"
     },
     {
         "Source": "http://korrespondent.net/",
@@ -15,6 +16,17 @@
         "Time": ["Find", ".article__time", "Text"],
         "TimeZone": -3,
         "Title": ["Find", "a", "Text"],
-        "ContentSelector": ".post-item.clearfix"
+        "ContentSelector": ".post-item.clearfix",
+        "Charset": "UTF-8"
+    },
+    {
+        "Source": "http://www.pravda.com.ua/",
+        "Find": ".mnews1 dd",
+        "Link": ["Find", "a", "Attr", "href"],
+        "Time": ["Find", ".article__time", "Text"],
+        "TimeZone": -3,
+        "Title": ["Find", "a", "Text"],
+        "ContentSelector": "div.block61 div.rpad",
+        "Charset": "cp1251"
     }
 ]
