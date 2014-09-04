@@ -32,15 +32,15 @@
 
     <div class="row">
         <div id="left-column" class="col-md-3">
-            <div class="list-group" ng-repeat="group in groupedArticles">
-                <div ng-repeat="article in group.Articles">
-                    <a class="list-group-item" ng-click="openLink(article.Link, group.ContentSelector)"
+            <div class="list-group">
+                <div ng-repeat="article in collectedArticles">
+                    <a class="list-group-item" ng-click="openLink(article.Link, article.ContentSelector)"
                         ng-class="{active:selected==article.Link || ($index == 0 && !itemSelected)}">
                         <div class="divTable">
                             <div class="divRow">
                                 <div class="divCell item-short-info">
                                     <span class="time">{{article.Time | date: 'HH:mm'}}</span>
-                                    <img class="favi pull-left" ng-src="{{group.Source}}/favicon.ico"/>
+                                    <img class="favi pull-left" ng-src="{{article.Source}}/favicon.ico"/>
                                 </div>
                                 <div class="divCell">{{article.Title}}</div>
                             </div>

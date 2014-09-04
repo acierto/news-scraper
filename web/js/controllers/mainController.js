@@ -4,11 +4,11 @@ angular.module('NewsScraperApp').controller('MainController',
         $scope.itemSelected = false;
 
         ApiService.getArticles().then(function (articles) {
-            $scope.groupedArticles = articles.data;
+            $scope.collectedArticles = articles.data;
 
             if (!$scope.itemSelected) {
-                var group = $scope.groupedArticles[0];
-                insertInnerPage(group.Articles[0].Link, group.ContentSelector);
+                var article = $scope.collectedArticles[0];
+                insertInnerPage(article.Link, article.ContentSelector);
             }
         });
 

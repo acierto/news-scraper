@@ -15,13 +15,9 @@ type InputElement struct {
 func (self *InputElement) Initialize() { if self.Charset == "" { self.Charset = "UTF-8" } }
 
 type Article struct {
+	Source   string
+	ContentSelector string
 	Link      string
 	Title     string
 	Time	  time.Time
-}
-
-type SourceArticle struct {
-	Source   string
-	ContentSelector string
-	Articles []Article
 }

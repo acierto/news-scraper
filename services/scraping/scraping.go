@@ -77,7 +77,7 @@ func collectArticles(doc *goquery.Document, inputElement model.InputElement) []m
 		title := findElementValue(s, inputElement.Title)
 		t := findElementValue(s, inputElement.Time)
 		articleTime, _ := time.Parse("15:04", t)
-		a := model.Article{link, title, articleTime}
+		a := model.Article{inputElement.Source, inputElement.ContentSelector, link, title, articleTime}
 		articles = append(articles, a)
 	})
 	return articles
@@ -108,17 +108,15 @@ func SelectContent(url string, selector string) string {
 }
 
 func Scrape() {
-	var sourceArticles = make([]model.SourceArticle, 0)
+	var articles = make([]model.Article, 0)
 
 	for _, inputElement := range readInput() {
 		var doc = GetDocument(inputElement.Source)
-
-		var articles = collectArticles(doc, inputElement)
-		sourceArticle := model.SourceArticle{inputElement.Source, inputElement.ContentSelector, articles}
-		sourceArticles = append(sourceArticles, sourceArticle)
+		var collectedArticles = collectArticles(doc, inputElement)
+		articles = append(articles, collectedArticles...)
 	}
 
-	json, err := json.MarshalIndent(sourceArticles, "", "  ")
+	json, err := json.MarshalIndent(articles, "", "  ")
 	check(err)
 
 	createJsonFile(json)
