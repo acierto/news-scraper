@@ -23,7 +23,7 @@
         "Source": "http://www.pravda.com.ua/",
         "Find": ".mnews1 dd",
         "Link": ["Find", "a", "Attr", "href"],
-        "Time": ["Find", ".article__time", "Text"],
+        "Time": ["Prev", "Text"],
         "TimeZone": -3,
         "Title": ["Find", "a", "Text"],
         "ContentSelector": "div.block61 div.rpad",

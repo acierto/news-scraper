@@ -33,6 +33,8 @@ func rawElementValue(s *goquery.Selection, rules []string) string {
 		if rules[i] == "Find" {
 			i++
 			s = s.Find(rules[i])
+		} else if rules[i] == "Prev" {
+			s = s.Prev()
 		} else if rules[i] == "Attr" {
 			i++
 			link, _ := s.Attr(rules[i])
@@ -100,7 +102,7 @@ func getArticleTime(s *goquery.Selection, articleTimes *[]time.Time, inputElemen
 
 func getLink(s *goquery.Selection, inputElement model.InputElement) string {
 	link := findElementValue(s, inputElement.Link)
-	if !strings.HasPrefix(link, inputElement.Source) {
+	if strings.HasPrefix(link, "/") {
 		link = inputElement.Source + link
 	}
 	return link
