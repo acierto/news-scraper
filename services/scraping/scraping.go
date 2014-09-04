@@ -120,4 +120,5 @@ func Scrape() {
 	check(err)
 
 	createJsonFile(json)
+	fmt.Println("Scraping is successfully finished at:" + time.Now().String())
 }

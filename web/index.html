@@ -33,7 +33,7 @@
     <div class="row">
         <div id="left-column" class="col-md-3">
             <div class="list-group">
-                <div ng-repeat="article in collectedArticles">
+                <div ng-repeat="article in collectedArticles | orderBy: 'Time':true ">
                     <a class="list-group-item" ng-click="openLink(article.Link, article.ContentSelector)"
                         ng-class="{active:selected==article.Link || ($index == 0 && !itemSelected)}">
                         <div class="divTable">
