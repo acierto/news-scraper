@@ -12,6 +12,7 @@ import (
 	"bytes"
 	"time"
 	"strings"
+	"math"
 )
 
 func check(e error) {
@@ -47,7 +48,7 @@ func rawElementValue(s *goquery.Selection, rules []string) string {
 	return ""
 }
 
-func convert(Charset string, Text string) string {
+func Convert(Charset string, Text string) string {
 	if Charset == "UTF-8" {
 		return Text
 	} else if Charset == "cp1251" {
@@ -65,7 +66,7 @@ func convert(Charset string, Text string) string {
 }
 
 func findAndCovertElementValue(s *goquery.Selection, rules []string, Charset string) string {
-	return convert(Charset, rawElementValue(s, rules))
+	return Convert(Charset, rawElementValue(s, rules))
 }
 
 func findElementValue(s *goquery.Selection, rules []string) string {
@@ -77,8 +78,17 @@ func getArticleTime(s *goquery.Selection, articleTimes *[]time.Time, inputElemen
 
 	articleTime, _ := time.Parse("2006/01/02 15:04", time.Now().UTC().Format("2006/01/02")+" "+t)
 
+	timeZoneOffset := time.Duration(inputElement.TimeZone) * time.Hour
+
+	if math.Abs(float64(inputElement.TimeZone)) > float64(0) {
+		if articleTime.Hour() + inputElement.TimeZone <= 0 {
+			articleTime = articleTime.AddDate(0, 0, 1)
+		}
+	}
+
+
 	// time zone
-	articleTime = articleTime.Add(time.Duration(inputElement.TimeZone) * time.Hour)
+	articleTime = articleTime.Add(timeZoneOffset)
 
 	if len(*articleTimes) == 0 {
 		if articleTime.After(time.Now()) {
@@ -136,15 +146,6 @@ func GetDocument(htmlLink string) *goquery.Document {
 	doc, err := goquery.NewDocument(htmlLink)
 	check(err)
 	return doc
-}
-
-func SelectContent(url string, selector string, encoding string) string {
-	header, _ := GetDocument(url).Find("head").Html()
-	content, _ := GetDocument(url).Find(selector).Html()
-
-	html := "<html><head>" + header + "</head><body>" + convert(encoding, content) + "</body>"
-
-	return html
 }
 
 func Scrape() {
