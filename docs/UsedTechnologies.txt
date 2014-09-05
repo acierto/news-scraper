@@ -1,0 +1,2 @@
+Database - http://docs.arangodb.org/
+Scraping - http://godoc.org/github.com/PuerkitoBio/goquery
