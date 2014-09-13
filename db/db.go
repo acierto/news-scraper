@@ -11,8 +11,8 @@ import (
 var port = 8529
 var client = &http.Client{}
 
-func doPost(url string, post_data io.Reader) {
-	r, _ := http.NewRequest("POST", fmt.Sprintf("http://localhost:%v/%s", port, url), post_data)
+func send(method string, url string, data io.Reader) string {
+	r, _ := http.NewRequest(method, fmt.Sprintf("http://localhost:%v/%s", port, url), data)
 
 	r.Header.Add("Content-Type", "application/json")
 	r.Header.Add("Accept", "application/json")
@@ -20,10 +20,20 @@ func doPost(url string, post_data io.Reader) {
 	resp, _ := client.Do(r)
 	defer resp.Body.Close()
 
-	_, err := ioutil.ReadAll(resp.Body)
+	contents, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Printf("%s", err)
 	}
+
+	return string(contents)
+}
+
+func doPost(url string, post_data io.Reader) {
+	send("POST", url, post_data)
+}
+
+func FindByExample(dbName string, example io.Reader) string {
+	return send("PUT", fmt.Sprintf("_db/%s/_api/simple/by-example", dbName), example)
 }
 
 func CreateDB(name string) {
