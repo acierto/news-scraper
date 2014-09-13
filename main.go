@@ -9,7 +9,10 @@ import (
 	"services/scraping"
 	"services/scraping/select_content"
 	"services/liveupdate"
-	"github.com/go-martini/martini")
+	"github.com/go-martini/martini"
+	a "db/articles"
+	"encoding/json"
+)
 
 func check(e error) {
 	if e != nil {
@@ -20,6 +23,10 @@ func check(e error) {
 func routing() {
 	m := martini.Classic()
 	m.Use(martini.Static("web"))
+
+	m.Get("/read-articles", func(req *http.Request) string {
+			return a.GetAllArticles()
+		})
 
 	m.Get("/read-html", func(req *http.Request) string {
 			urlValues := req.URL.Query()["url"]
@@ -34,8 +41,16 @@ func routing() {
 	m.Run()
 }
 
+func importScrapedArticles() {
+	articles := scraping.Scrape()
+
+	json, err := json.MarshalIndent(articles, "", "  ")
+	check(err)
+	a.ImportDocuments(true, string(json))
+}
+
 func runJob() {
-	scraping.Scrape()
+	importScrapedArticles()
 	liveupdate.CronLatestNews()
 }
 

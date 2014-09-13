@@ -4,7 +4,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"model"
 	"encoding/json"
-	"os"
+	a "db/articles"
 
 	"enc/cp1251_utf8"
 	"fmt"
@@ -123,23 +123,17 @@ func collectArticles(doc *goquery.Document, inputElement model.InputElement) []m
 
 	var articleTimes = make([]time.Time, 0)
 	doc.Find(inputElement.Find).Each(func(i int, s *goquery.Selection) {
-		title := findAndCovertElementValue(s, inputElement.Title, inputElement.Charset)
 		link := getLink(s, inputElement)
-		articleTime := getArticleTime(s, &articleTimes, inputElement)
 
-		a := model.Article{inputElement.Source, inputElement.ContentSelector, link, title, articleTime, inputElement.Charset}
-		articles = append(articles, a)
+		if !a.HasArticle(link) {
+			title := findAndCovertElementValue(s, inputElement.Title, inputElement.Charset)
+			articleTime := getArticleTime(s, &articleTimes, inputElement)
+
+			a := model.Article{inputElement.Source, inputElement.ContentSelector, link, title, articleTime, inputElement.Charset}
+			articles = append(articles, a)
+		}
 	})
 	return articles
-}
-
-func createJsonFile(jsonInput []byte) {
-	f, err := os.Create("web/json/articles.json")
-	check(err)
-
-	defer f.Close()
-	_, err = f.Write(jsonInput)
-	check(err)
 }
 
 func GetDocument(htmlLink string) *goquery.Document {
@@ -148,7 +142,7 @@ func GetDocument(htmlLink string) *goquery.Document {
 	return doc
 }
 
-func Scrape() {
+func Scrape() []model.Article {
 	var articles = make([]model.Article, 0)
 
 	for _, inputElement := range readInput() {
@@ -157,9 +151,5 @@ func Scrape() {
 		articles = append(articles, collectedArticles...)
 	}
 
-	json, err := json.MarshalIndent(articles, "", "  ")
-	check(err)
-
-	createJsonFile(json)
-	fmt.Println("Scraping is successfully finished at:" + time.Now().String())
+	return articles
 }

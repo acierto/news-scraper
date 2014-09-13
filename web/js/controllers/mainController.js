@@ -4,7 +4,7 @@ angular.module('NewsScraperApp').controller('MainController',
         $scope.itemSelected = false;
 
         ApiService.getArticles().then(function (articles) {
-            $scope.collectedArticles = articles.data;
+            $scope.collectedArticles = articles.data.result;
 
             if (!$scope.itemSelected) {
                 var article = $scope.collectedArticles[0];

@@ -46,6 +46,14 @@ func CreateCollection(dbName string, collectionName string) {
 	doPost(fmt.Sprintf("_db/%s/_api/collection", dbName), post_data)
 }
 
+func ReadCollection(dbName string, data io.Reader) string {
+	return send("PUT", fmt.Sprintf("_db/%s/_api/simple/all", dbName), data)
+}
+
+func CreateDocument(dbName string, collectionName string, data io.Reader) {
+	send("POST", fmt.Sprintf("_db/%s/_api/document?collection=%s", dbName, collectionName), data)
+}
+
 func ImportDocuments(dbName string, collectionName string, createCollection bool, body string) {
 	post_data := strings.NewReader(body)
 	uri :=fmt.Sprintf("_db/%s/_api/import?type=array&collection=%s&createCollection=%t", dbName, collectionName, createCollection)
