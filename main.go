@@ -12,11 +12,12 @@ import (
 	"github.com/go-martini/martini"
 	a "db/articles"
 	"encoding/json"
+	"log"
 )
 
 func check(e error) {
 	if e != nil {
-		panic(e)
+		log.Printf(e)
 	}
 }
 
