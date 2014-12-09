@@ -17,7 +17,7 @@ import (
 
 func check(e error) {
 	if e != nil {
-		log.Printf(e)
+		log.Printf(e.Error())
 	}
 }
 
