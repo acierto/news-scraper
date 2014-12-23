@@ -6,9 +6,6 @@ package main
 
 import (
 	"net/http"
-	"services/scraping"
-	"services/scraping/select_content"
-	"services/liveupdate"
 	"github.com/go-martini/martini"
 	a "db/articles"
 	"encoding/json"
@@ -34,7 +31,7 @@ func routing() {
 			selectors := req.URL.Query()["selector"]
 			charset := req.URL.Query()["charset"]
 			if len(urlValues) > 0 && len(selectors) > 0 {
-				return select_content.SelectContent(urlValues[0], selectors[0], charset[0])
+				return SelectContent(urlValues[0], selectors[0], charset[0])
 			}
 			return ""
 		})
@@ -43,7 +40,7 @@ func routing() {
 }
 
 func importScrapedArticles() {
-	articles := scraping.Scrape()
+	articles := Scrape()
 
 	json, err := json.MarshalIndent(articles, "", "  ")
 	check(err)
@@ -52,7 +49,7 @@ func importScrapedArticles() {
 
 func runJob() {
 	importScrapedArticles()
-	liveupdate.CronLatestNews()
+	CronLatestNews()
 }
 
 func main() {

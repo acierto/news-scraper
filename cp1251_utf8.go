@@ -8,7 +8,7 @@
   For more information, please refer to <http://unlicense.org/>
 */
 
-package cp1251_utf8
+package main
 
 var utf = [256]uint16{
 	0x00: 0x0000,
