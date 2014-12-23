@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 	"io/ioutil"
+	"os"
 )
 
 var port = 8529
@@ -18,6 +19,11 @@ func send(method string, url string, data io.Reader) string {
 	r.Header.Add("Accept", "application/json")
 
 	resp, _ := client.Do(r)
+
+	if resp == nil {
+		fmt.Println("Cannot connect to ArangoDB. Database URL is ", fmt.Sprintf("http://localhost:%d/", port))
+		os.Exit(1)
+	}
 	defer resp.Body.Close()
 
 	contents, err := ioutil.ReadAll(resp.Body)
