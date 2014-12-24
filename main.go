@@ -7,7 +7,6 @@ package main
 import (
 	"net/http"
 	"github.com/go-martini/martini"
-	a "db/articles"
 	"encoding/json"
 	"log"
 )
@@ -23,7 +22,7 @@ func routing() {
 	m.Use(martini.Static("web"))
 
 	m.Get("/read-articles", func(req *http.Request) string {
-			return a.GetAllArticles()
+			return GetAllArticles()
 		})
 
 	m.Get("/read-html", func(req *http.Request) string {
@@ -44,7 +43,7 @@ func importScrapedArticles() {
 
 	json, err := json.MarshalIndent(articles, "", "  ")
 	check(err)
-	a.ImportDocuments(true, string(json))
+	ImportArticles(true, string(json))
 }
 
 func runJob() {

@@ -1,38 +1,22 @@
-package articles
+package main
 
 import (
-	"db"
 	"fmt"
 	"strings"
 	"bytes"
-	"model"
 	"encoding/json"
 )
 
 var dbName = "news-scraper"
 var collectionName = "articles"
 
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
-
-func CreateDB() {
-	db.CreateDB(dbName)
-}
-
-func CreateCollection() {
-	db.CreateCollection(dbName, collectionName)
-}
-
-func ImportDocuments(createCollection bool, body string) {
-	db.ImportDocuments(dbName, collectionName, createCollection, body)
+func ImportArticles(createCollection bool, body string) {
+	ImportDocuments(dbName, collectionName, createCollection, body)
 }
 
 func FindArticle(link string) string {
 	example := fmt.Sprintf("{\"collection\": \"%s\", \"example\" :  { \"Link\" : \"%s\" }  }", collectionName, link)
-	return db.FindByExample(dbName, strings.NewReader(example))
+	return FindByExample(dbName, strings.NewReader(example))
 }
 
 func HasArticle(link string) bool {
@@ -51,11 +35,11 @@ func HasArticle(link string) bool {
 
 func GetAllArticles() string {
 	example := fmt.Sprintf("{\"collection\": \"%s\"}", collectionName)
-	return db.ReadCollection(dbName, strings.NewReader(example))
+	return ReadCollection(dbName, strings.NewReader(example))
 }
 
-func AddArticle(article *model.Article) {
+func AddArticle(article *Article) {
 	json, err := json.MarshalIndent(article, "", "  ")
 	check(err)
-	db.CreateDocument(dbName, collectionName, bytes.NewReader(json))
+	CreateDocument(dbName, collectionName, bytes.NewReader(json))
 }

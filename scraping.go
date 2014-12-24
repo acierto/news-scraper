@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/PuerkitoBio/goquery"
 	"encoding/json"
-	a "db/articles"
 
 	"fmt"
 	"io/ioutil"
@@ -117,7 +116,7 @@ func collectArticles(doc *goquery.Document, inputElement InputElement) []Article
 	doc.Find(inputElement.Find).Each(func(i int, s *goquery.Selection) {
 		link := getLink(s, inputElement)
 
-		if !a.HasArticle(link) {
+		if !HasArticle(link) {
 			title := findAndCovertElementValue(s, inputElement.Title, inputElement.Charset)
 			articleTime := getArticleTime(s, &articleTimes, inputElement)
 
