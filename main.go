@@ -46,7 +46,15 @@ func importScrapedArticles() {
 	ImportArticles(true, string(json))
 }
 
+func prepareDB() {
+	if !ExistsDB() {
+		CreateDB()
+		CreateCollection(articlesCollectionName)
+	}
+}
+
 func runJob() {
+	prepareDB()
 	importScrapedArticles()
 	CronLatestNews()
 }

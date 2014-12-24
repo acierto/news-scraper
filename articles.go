@@ -7,16 +7,15 @@ import (
 	"encoding/json"
 )
 
-var dbName = "news-scraper"
-var collectionName = "articles"
+var articlesCollectionName = "articles"
 
 func ImportArticles(createCollection bool, body string) {
-	ImportDocuments(dbName, collectionName, createCollection, body)
+	ImportDocuments(articlesCollectionName, createCollection, body)
 }
 
 func FindArticle(link string) string {
-	example := fmt.Sprintf("{\"collection\": \"%s\", \"example\" :  { \"Link\" : \"%s\" }  }", collectionName, link)
-	return FindByExample(dbName, strings.NewReader(example))
+	example := fmt.Sprintf("{\"collection\": \"%s\", \"example\" :  { \"Link\" : \"%s\" }  }", articlesCollectionName, link)
+	return FindByExample(strings.NewReader(example))
 }
 
 func HasArticle(link string) bool {
@@ -34,12 +33,12 @@ func HasArticle(link string) bool {
 }
 
 func GetAllArticles() string {
-	example := fmt.Sprintf("{\"collection\": \"%s\"}", collectionName)
-	return ReadCollection(dbName, strings.NewReader(example))
+	example := fmt.Sprintf("{\"collection\": \"%s\"}", articlesCollectionName)
+	return ReadCollection(strings.NewReader(example))
 }
 
 func AddArticle(article *Article) {
 	json, err := json.MarshalIndent(article, "", "  ")
 	check(err)
-	CreateDocument(dbName, collectionName, bytes.NewReader(json))
+	CreateDocument(articlesCollectionName, bytes.NewReader(json))
 }

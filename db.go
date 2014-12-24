@@ -7,8 +7,10 @@ import (
 	"strings"
 	"io/ioutil"
 	"os"
+	"encoding/json"
 )
 
+var dbName = "news-scraper"
 var port = 8529
 var client = &http.Client{}
 
@@ -38,29 +40,39 @@ func doPost(url string, post_data io.Reader) {
 	send("POST", url, post_data)
 }
 
-func FindByExample(dbName string, example io.Reader) string {
+func FindByExample(example io.Reader) string {
 	return send("PUT", fmt.Sprintf("_db/%s/_api/simple/by-example", dbName), example)
 }
 
-func CreateDB(name string) {
-	post_data := strings.NewReader("{\"name\":\"" + name + "\"}")
+func ExistsDB() bool {
+	res := send("POST", fmt.Sprintf("_db/%s/_api/version", dbName), nil)
+
+	var dat map[string]interface{}
+	err := json.Unmarshal([]byte(res), &dat)
+	check(err)
+
+	return dat["server"] != nil
+}
+
+func CreateDB() {
+	post_data := strings.NewReader("{\"name\":\"" + dbName + "\"}")
 	doPost("_api/database", post_data)
 }
 
-func CreateCollection(dbName string, collectionName string) {
+func CreateCollection(collectionName string) {
 	post_data := strings.NewReader("{\"name\":\"" + collectionName + "\"}")
 	doPost(fmt.Sprintf("_db/%s/_api/collection", dbName), post_data)
 }
 
-func ReadCollection(dbName string, data io.Reader) string {
+func ReadCollection(data io.Reader) string {
 	return send("PUT", fmt.Sprintf("_db/%s/_api/simple/all", dbName), data)
 }
 
-func CreateDocument(dbName string, collectionName string, data io.Reader) {
+func CreateDocument(collectionName string, data io.Reader) {
 	send("POST", fmt.Sprintf("_db/%s/_api/document?collection=%s", dbName, collectionName), data)
 }
 
-func ImportDocuments(dbName string, collectionName string, createCollection bool, body string) {
+func ImportDocuments(collectionName string, createCollection bool, body string) {
 	post_data := strings.NewReader(body)
 	uri :=fmt.Sprintf("_db/%s/_api/import?type=array&collection=%s&createCollection=%t", dbName, collectionName, createCollection)
 	doPost(uri, post_data)
